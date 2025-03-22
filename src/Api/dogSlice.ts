@@ -1,23 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-
-export interface Dog {
-  breed: string;
-  nImages: number;
-}
-
-export interface DogState {
-  dogs: Dog[];
-  status: "idle" | "pending" | "succeeded" | "failed";
-}
+import { Dog, DogState } from "../types/dog";
 
 export const fetchDogBreeds = createAsyncThunk("dogBreeds", async () => {
+  //get all dog breedss
   const breeds = await fetch("https://dog.ceo/api/breeds/list/all")
     .then((res) => res.json())
     .then((t) => Object.keys(t['message']));
 
   let dogs: Dog[] = []  
 
+  //get the images for each dog breed
   await Promise.all(breeds.map(async (breed) => {
     const numberOfImages = await fetch(`https://dog.ceo/api/breed/${breed}/images`)
       .then(res => res.json())
@@ -25,15 +18,14 @@ export const fetchDogBreeds = createAsyncThunk("dogBreeds", async () => {
     dogs.push({breed: breed, nImages: numberOfImages})
   }))
   
+  //get top 10 dogs with most images
   dogs = dogs.sort((a, b) => {
     if(a.nImages >= b.nImages){
       return -1
     }else{
       return 1
     }
-  }).filter((dog, index)=> index < 10);
-
-  console.log(dogs)
+  }).filter((_dog, index)=> index < 10);
 
   return dogs;
 });
