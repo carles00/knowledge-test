@@ -17,16 +17,15 @@ export const fetchDogBreeds = createAsyncThunk("dogBreeds", async () => {
       .then(message => (message['message'] as any[]).length);
     dogs.push({breed: breed, nImages: numberOfImages})
   }))
-  
-  //get top 10 dogs with most images
+
   dogs = dogs.sort((a, b) => {
     if(a.nImages >= b.nImages){
       return -1
     }else{
       return 1
     }
-  }).filter((_dog, index)=> index < 10);
-
+  });
+  
   return dogs;
 });
 
@@ -46,8 +45,7 @@ export const dogSlice = createSlice({
 
     builder.addCase(fetchDogBreeds.fulfilled, (state, action)=>{
       state.status = 'succeeded'
-      const dogsList = [...action.payload] 
-      state.dogs = dogsList
+      state.dogs = [...action.payload] 
 
     })
   }

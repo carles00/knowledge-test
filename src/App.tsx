@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import "./App.css";
 import { fetchDogBreeds, selectAllDogs, selectDogStatus } from "./Api/dogSlice";
-import PieComponent from "./components/pieComponent";
+import DogBreedPie from "./components/DogBreedPie";
 import Loading from "./components/loading";
 import { useAppDispath, useAppSelector } from "./hooks/reduxHooks";
 
@@ -21,8 +20,9 @@ export default function App() {
   }
 
   return (
-    <main className="main">
-      <PieComponent dogBreeds={dogBreeds} />
-    </main>
+    <>
+      <p>Percentage of images for each Breed</p>
+      <DogBreedPie dogBreeds={dogBreeds} />
+    </>
   );
 }

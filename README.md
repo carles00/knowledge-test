@@ -1,54 +1,18 @@
-# React + TypeScript + Vite
+1. **Describe all the decisions that you took during development and the reasoning
+behind them.**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+First of all I used Vite to scaffold the project and create the development server. I choose it because I am familiar with it and it makes the project setup so much easier.
 
-Currently, two official plugins are available:
+When it comes to using React Redux I kept it as simple as possible and I made sure to keep the project organized. I used an async Thunk to call the api to get the breeds and once I got all the breeds I thought the best way to get all the images for each bread was to make parallel calls to the api using Promise.All, this way it makes the fetching faster. As I need both the breed and the number of images at the same time I did the fetching for both things in the same thunk, this way it is easier to then combine them to make the state. A problem that I encountered while making the parallel calls was that, as they return at different times, the order of the breeds was scrambled so I had to order it. I decided to order by number of images as it makes the Pie chart look cleaner and more understandable
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To show the results I used Rechart to render the Pie chart, as there is a lot of data to show I prefered to only show the top 10 breeds, but for the sake of completeness I decided to implement a simple toggle that filters the data between top 10 breeds and showing all the breeds.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. **If you had more time, what other features would you add to your app and how
+would you build them?**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Unfortunately i didn't have time to add Unit testing, to do it I would use Vitest, as it is a test runner made for Vite, and React testing library to make the tests.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Another think I would have liked to do was to make separete pages for each breed and show some information about it. To do this I would have used React-Router.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+I also would have loved to make it a bit prettier with more CSS, but since te scope is small and I didn't implement the multiple pages I ended up not using much css.
